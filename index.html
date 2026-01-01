@@ -12,7 +12,6 @@
       --ink2:#7a6d5a;
       --sage:#9aa89b;
       --mist:#cfd8d3;
-      --clay:#c9b2a0;
       --card: rgba(255,255,255,0.58);
       --card2: rgba(255,255,255,0.42);
       --shadow: 0 10px 28px rgba(0,0,0,0.06);
@@ -36,7 +35,6 @@
       padding: 42px 18px 70px;
     }
 
-    /* Top */
     header{
       text-align:center;
       padding: 18px 10px 8px;
@@ -62,7 +60,6 @@
       margin: 0 0 22px;
     }
 
-    /* Countdown */
     .countdown{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -97,7 +94,6 @@
       min-height: 1.2em;
     }
 
-    /* Sections */
     .section{
       margin-top: 42px;
     }
@@ -119,7 +115,6 @@
       line-height: 1.5;
     }
 
-    /* Grid + cards */
     .grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -193,7 +188,7 @@
 
     .badge{
       display:inline-flex;
-      align-items:center;
+      align-items:flex-start;
       gap: 8px;
       padding: 8px 10px;
       border-radius: 12px;
@@ -272,6 +267,15 @@
       text-align:center;
     }
 
+    .callout{
+      margin: 14px auto 0;
+      max-width: 920px;
+      text-align:center;
+      color:#8a7d6a;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
     footer{
       margin-top: 40px;
       text-align:center;
@@ -340,11 +344,72 @@
       </div>
 
       <div class="statusline" id="voteStatus"></div>
+
+      <div class="callout">
+        Distance notes are estimates from Sugi Chalet (Suginohara) to each restaurant area.
+        Akakura options are typically a short drive, while Madarao area is farther.
+      </div>
+    </section>
+
+    <!-- ACCOMMODATION -->
+    <section class="section" id="accommodation">
+      <h2>Accommodation</h2>
+      <p class="hint">
+        Base: Sugi Chalet, near Suginohara Ski Resort. Sleeps large groups and is positioned for quick access to the slopes.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="toprow">
+            <div>
+              <h3 class="name">Sugi Chalet</h3>
+              <div class="cuisine">Suginohara, Myoko</div>
+            </div>
+            <div class="meta">
+              <div class="pillrow">
+                <div class="pill" title="Large group friendly">
+                  <span class="icon">👨‍👩‍👧‍👦</span>
+                  <span>Group friendly</span>
+                </div>
+                <div class="pill" title="Ski access">
+                  <span class="icon">⛷️</span>
+                  <span>Ski-in / Ski-out area</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="badge" title="Quick summary">
+            <span class="icon">🏷️</span>
+            <span>Good base for a 12 pax trip, easier logistics for breakfasts, gear, and regrouping.</span>
+          </div>
+
+          <div class="desc">
+            <ul style="margin:10px 0 0; padding-left: 18px;">
+              <li>Address listed as 253-2 Suginosawa, Myoko, Niigata 949-2113.</li>
+              <li>Designed for larger groups, long shared-table meals, and relaxing after skiing.</li>
+              <li>Close to Suginohara lifts and slopes, and a convenient drive to dinner areas.</li>
+            </ul>
+          </div>
+
+          <div class="links" aria-label="Accommodation links">
+            <a class="linkbtn" href="https://maps.app.goo.gl/WQTSGNowg6dwxg539" target="_blank" rel="noopener noreferrer">
+              <span class="icon">📍</span><span>Google Maps</span>
+            </a>
+            <a class="linkbtn" href="https://escapemyoko.com/sugi-chalet/" target="_blank" rel="noopener noreferrer">
+              <span class="icon">🏔️</span><span>Official page</span>
+            </a>
+            <a class="linkbtn" href="https://escapemyoko.com/contact-escape-myoko/" target="_blank" rel="noopener noreferrer">
+              <span class="icon">☎️</span><span>Contact details</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer>
       Tip: For a group of 12, confirm seating layout when booking.
-      If a venue is very small, split the group into two tables or two time slots.
+      If a venue is very small, split into two tables or two time slots.
     </footer>
   </div>
 
@@ -390,17 +455,22 @@
       return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
     }
     function mapsPhotosLink(query){
-      // Opens Google Maps results, user can tap Photos
       return mapsSearchLink(query + " photos");
-    }
-    function mapsReviewsLink(query){
-      // Opens Google Maps results, user can tap Reviews
-      return mapsSearchLink(query + " reviews");
     }
 
     /***********************
+     * DISTANCE ESTIMATES (rough, by road)
+     * Base: Sugi Chalet (Suginohara / Suginosawa)
+     ***********************/
+    const distanceNotes = {
+      AKAKURA: "Approx 8 to 12 km, about 12 to 20 min by car (snow and traffic can change this).",
+      SEKIGAWA: "Approx 6 to 10 km, about 10 to 18 min by car.",
+      TARUMOTO_MADARAO: "Approx 22 to 30 km, about 30 to 45 min by car."
+    };
+
+    /***********************
      * DINING DATA
-     * Includes map + photos + reviews links and extra planning notes
+     * Google Reviews buttons removed
      ***********************/
     const restaurants = [
       {
@@ -408,17 +478,17 @@
         cuisine: "Izakaya",
         groupFit: "Good",
         reservation: "Medium",
-        why12: "Shared plates and a social layout makes one group booking more realistic.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Small plates make it easy to share, and ordering is flexible for mixed appetites.",
         details: [
-          "Classic izakaya with lots of small dishes, good for ordering a wide spread for the table.",
-          "Good pick if the group wants a lively dinner with drinks and relaxed pacing.",
-          "Consider ordering a mix of grilled items, fried dishes, and seasonal specials to share."
+          "Izakaya style, lots of small dishes so the table can try many items.",
+          "Good for a relaxed, chatty dinner and drinks.",
+          "Cash only is commonly noted, plan your wallet before you go."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Pontaro izakaya Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Pontaro izakaya Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Pontaro izakaya Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d9693451-Reviews-Izakaya_Pontaro-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d9693451-Reviews-Izakaya_Pontaro-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
           { label: "Myoko Tourism", icon: "ℹ️", url: "https://myokotourism.com/restaurants/pontaro/" }
         ]
       },
@@ -427,70 +497,74 @@
         cuisine: "Yakitori",
         groupFit: "Limited",
         reservation: "Medium-Hard",
-        why12: "Works best if you split into two tables or accept staggered seating.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Best if you are happy to split into two groups or stagger timing.",
         details: [
-          "Charcoal grilled skewers, usually served in rounds, great for sharing and trying many items.",
-          "Seating is commonly counter based or small tables, so a full group of 12 may not fit together.",
-          "Good choice if the group likes a focused food experience and does not mind splitting."
+          "Charcoal grilled skewers, usually served in rounds, great for trying variety.",
+          "Often compact seating, so a full 12 in one table may be tough.",
+          "Good choice if your group likes focused food and does not mind splitting."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Yakitori Asagao Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Yakitori Asagao Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Yakitori Asagao Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d12233128-Reviews-Yakitori_Asagao-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" }
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d12233128-Reviews-Yakitori_Asagao-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Wanderlog", icon: "🧭", url: "https://wanderlog.com/place/details/2675820/%E5%82%99%E9%95%B7%E7%82%AD%E7%81%AB%E3%82%84%E3%81%8D%E3%81%A8%E3%82%8A-%E9%BA%BB%E9%A1%94-yakitori-asagao" }
         ]
       },
       {
         name: "Udon no Fu",
         cuisine: "Udon",
-        groupFit: "Poor for 12",
+        groupFit: "Limited",
         reservation: "Hard",
-        why12: "Best as a split group option, usually too small for 12 together.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Comfort meal, but easier if you split the group or go early.",
         details: [
-          "Known for udon and comforting noodle meals, a good choice on cold nights.",
-          "Venues like this tend to be compact, which makes one large booking difficult.",
-          "Strong option for a smaller team lunch or an early dinner in two groups."
+          "Warm noodle option that is great after a cold day out.",
+          "Often smaller dining rooms, so one large table is unlikely.",
+          "Good fallback if you want something simple and fast."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Udon no Fu Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Udon no Fu Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Udon no Fu Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557583-Reviews-Udon_No_Fu-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" }
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557583-Reviews-Udon_No_Fu-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Tabelog", icon: "📒", url: "https://tabelog.com/en/niigata/A1503/A150303/15014439/" }
         ]
       },
       {
         name: "Noren Akakura Sushi",
         cuisine: "Sushi",
-        groupFit: "Poor for 12",
+        groupFit: "Limited",
         reservation: "Hard",
-        why12: "A premium pick for a smaller sub group, not one table for 12.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Works best as a smaller sub group option for a sushi focused night.",
         details: [
-          "High quality sushi in an intimate setting, often more quiet and chef focused.",
-          "Capacity is usually limited, so plan on splitting into smaller groups.",
-          "Good for a special night if you can secure a reservation."
+          "Sushi focused dinner, often a more intimate pace and setting.",
+          "Capacity can be tight, splitting the group is the realistic plan.",
+          "Aim to book early, especially on peak ski weeks."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Noren Akakura Sushi Myoko") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Noren Akakura Sushi Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Noren Akakura Sushi Myoko") }
+          { label: "Wanderlog", icon: "🧭", url: "https://wanderlog.com/tr/place/details/13203682/%E3%81%AE%E3%82%8C%E3%82%93-noren-akakura-sushimyoko" }
         ]
       },
       {
         name: "Takasago Sushi",
         cuisine: "Sushi",
-        groupFit: "Poor for 12",
+        groupFit: "Limited",
         reservation: "Hard",
-        why12: "Works only if split, best for those who want traditional sushi.",
+        distance: distanceNotes.SEKIGAWA,
+        why12: "Better for a smaller group who wants classic sushi in a quieter setting.",
         details: [
-          "Family run sushi with a more traditional feel and slower pacing.",
-          "Small restaurant experience, which can be a plus if you want a quieter meal.",
-          "Consider arranging two smaller bookings rather than one large group."
+          "Traditional, family run feel is often mentioned by visitors.",
+          "Smaller room, so plan on splitting if your full group wants sushi.",
+          "Good pick if you want a calm dinner away from the main ski street."
         ],
         links: [
-          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Takasago Sushi Myoko Niigata") },
+          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Takasago Sushi Myoko") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Takasago Sushi Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Takasago Sushi Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557657-Reviews-Takasago_Sushi-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" }
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557657-Reviews-Takasago_Sushi-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Tabelog", icon: "📒", url: "https://s.tabelog.com/en/niigata/A1503/A150303/15004285/" }
         ]
       },
       {
@@ -498,18 +572,19 @@
         cuisine: "Yakiniku",
         groupFit: "Good",
         reservation: "Medium",
-        why12: "BBQ format is made for groups, easy to order sets and share.",
+        distance: distanceNotes.AKAKURA,
+        why12: "BBQ format keeps it social, and sharing set orders is straightforward.",
         details: [
-          "Tabletop grilling makes it interactive and keeps dinner social.",
-          "Great for mixed preferences since people can choose their own cuts and sides.",
-          "Confirm ventilation and table spacing for 12, then order shared sets plus extras."
+          "Tabletop grill yakiniku, interactive and great for groups.",
+          "Often described as small and popular, booking ahead is smart.",
+          "Expect a smoky vibe, wear gear you can wash easily."
         ],
         links: [
-          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Shokudo en Myoko yakiniku") },
-          { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Shokudo en Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Shokudo en Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557656-Reviews-Shokudo_En-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
-          { label: "Myoko Tourism", icon: "ℹ️", url: "https://myokotourism.com/restaurants/shokudoen/" }
+          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Shokudoen yakiniku Myoko Akakura") },
+          { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Shokudoen Myoko") },
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d7557656-Reviews-Shokudo_En-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Myoko Tourism", icon: "ℹ️", url: "https://myokotourism.com/restaurants/shokudoen/" },
+          { label: "Tabelog", icon: "📒", url: "https://s.tabelog.com/en/niigata/A1503/A150303/15005529/" }
         ]
       },
       {
@@ -517,17 +592,19 @@
         cuisine: "Japanese",
         groupFit: "Excellent",
         reservation: "Easy-Medium",
-        why12: "More flexible seating and a broad menu makes planning simple.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Broad menu and group friendly setup makes planning simpler for 12.",
         details: [
-          "Large menu that usually suits a mixed group, including simpler comfort dishes.",
-          "A good logistics friendly choice on peak nights when smaller venues are full.",
-          "Confirm last order timing and table layout, then pre pick a few set meals to speed up ordering."
+          "Large menu, often suitable for mixed preferences including vegetarians.",
+          "A reliable choice on peak nights because it is more geared for groups.",
+          "If you want faster service, pre-pick a few shared staples for the table."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Restaurant Shibata Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Restaurant Shibata Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Restaurant Shibata Myoko") },
-          { label: "Myoko Tourism", icon: "ℹ️", url: "https://myokotourism.com/restaurants/restaurant-shibata/" }
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d5773296-Reviews-Restaurant_Shibata-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Myoko Tourism", icon: "ℹ️", url: "https://myokotourism.com/restaurants/restaurant-shibata/" },
+          { label: "Reservation notes", icon: "📌", url: "https://www.myoko-shibata.com/access-%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9/how-to-make-a-resevation/" }
         ]
       },
       {
@@ -535,53 +612,54 @@
         cuisine: "Italian",
         groupFit: "Excellent",
         reservation: "Easy",
-        why12: "Often handles large groups, shared pizzas and pasta are easy for 12.",
+        distance: distanceNotes.TARUMOTO_MADARAO,
+        why12: "Pizza and pasta sharing works well, and large groups are easier to seat.",
         details: [
-          "Comfort option with pizza and pasta, great when the group wants something familiar.",
-          "Good for sharing, you can order several pizzas plus a few pasta dishes for the table.",
-          "Ideal backup when Japanese bookings are tight, still feels like a proper dinner."
+          "Comfort option when the group wants something familiar and hearty.",
+          "Good for sharing, order several pizzas plus a few pasta dishes and salads.",
+          "Located in Tarumoto area, plan transport and timing."
         ],
         links: [
-          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Restaurant Rudolf Myoko") },
+          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Restaurant Rudolf Myoko Tarumoto") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Restaurant Rudolf Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Restaurant Rudolf Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d4902024-Reviews-Restaurant_Rudolf-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" }
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com.sg/Restaurant_Review-g1021352-d4902024-Reviews-Restaurant_Rudolf-Myoko_Niigata_Prefecture_Koshinetsu_Chubu.html" },
+          { label: "Wanderlog", icon: "🧭", url: "https://wanderlog.com/place/details/2675791/rudolf" }
         ]
       },
       {
         name: "Full Circle Snowsurf",
-        cuisine: "Western / Cafe",
+        cuisine: "Cafe / Bar",
         groupFit: "Good",
         reservation: "Easy",
-        why12: "Spacious seating and casual format makes it low stress for 12.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Casual format with flexible seating, good when the group arrives in waves.",
         details: [
-          "Relaxed spot that works well for a casual group dinner and drinks.",
-          "Good for flexible timing, helpful when not everyone arrives at once.",
-          "If you want a quieter sit down dinner, choose earlier, if you want lively, go later."
+          "Good coffee, casual food, and a laid-back hangout vibe.",
+          "Great for early dinner into drinks, or a relaxed night with music.",
+          "If you want a quieter meal, go earlier, if you want lively, go later."
         ],
         links: [
-          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Full Circle Snowsurf Cafe Restaurant Bar Myoko") },
+          { label: "Google Maps", icon: "📍", url: mapsSearchLink("Full Circle Snowsurf Cafe Restaurant Bar Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Full Circle Snowsurf Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Full Circle Snowsurf Myoko") },
-          { label: "Tripadvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d13371720-Reviews-Full_Circle_Snowsurf_Cafe_Restaurant_Bar-Myoko_Niigata_Prefecture_Koshinetsu_Ch.html" },
+          { label: "TripAdvisor", icon: "🗣️", url: "https://www.tripadvisor.com/Restaurant_Review-g1021352-d13371720-Reviews-Full_Circle_Snowsurf_Cafe_Restaurant_Bar-Myoko_Niigata_Prefecture_Koshinetsu_Ch.html" },
           { label: "Instagram", icon: "📷", url: "https://www.instagram.com/flcircle/?hl=en" }
         ]
       },
       {
         name: "Obake Bar & Restaurant",
-        cuisine: "Bar / Casual",
+        cuisine: "Bar / Japanese-Mex fusion",
         groupFit: "Good",
         reservation: "Medium",
-        why12: "Best for a social dinner, drinks, and a longer hangout after skiing.",
+        distance: distanceNotes.AKAKURA,
+        why12: "Great for a social night, easier if you book and arrive on time.",
         details: [
-          "Casual bar style dinner that suits a group that wants food plus drinks.",
-          "Good vibe for celebrating, usually easier than tiny sushi counters, still book if possible.",
-          "If part of the group has dietary needs, check menu options in advance."
+          "Bar focused dinner with food plus cocktails, great for celebrating.",
+          "Often highlighted for veg options as well, helpful for mixed diets.",
+          "If you want a long hangout after dinner, this is a strong choice."
         ],
         links: [
           { label: "Google Maps", icon: "📍", url: mapsSearchLink("Obake Bar Myoko Akakura") },
           { label: "Photos", icon: "🖼️", url: mapsPhotosLink("Obake Bar Myoko") },
-          { label: "Reviews", icon: "⭐", url: mapsReviewsLink("Obake Bar Myoko") },
           { label: "Instagram", icon: "📷", url: "https://www.instagram.com/obakebarmyoko/" },
           { label: "HappyCow", icon: "🥗", url: "https://www.happycow.net/reviews/obake-bar-myoko-445566" }
         ]
@@ -623,7 +701,7 @@
      * GOOGLE SHEETS VOTING
      ***********************/
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxpMj-GRBmhoXdLnodt6bEJ9egh8RCvyqlnBfVC7Bk089s3m5VkepK1O-KlVMfZGimgTg/exec";
-    const VOTE_KEY = "myoko_votes_v2";
+    const VOTE_KEY = "myoko_votes_v3";
     const voteStatus = document.getElementById("voteStatus");
 
     function setStatus(msg){ voteStatus.textContent = msg || ""; }
@@ -693,7 +771,11 @@
             <span>${r.why12}</span>
           </div>
 
-          <div class="desc">
+          <div class="desc" style="margin-top:10px;">
+            <div style="margin: 0 0 10px; color:#6a7a71; font-size:0.90rem;">
+              <span class="icon" style="margin-right:8px;">🚗</span>
+              <strong>From Sugi Chalet:</strong> ${r.distance}
+            </div>
             <ul style="margin:10px 0 0; padding-left: 18px;">
               ${detailsHtml}
             </ul>
@@ -722,7 +804,6 @@
 
     /***********************
      * VOTE POST
-     * Uses form POST with no-cors, this avoids preflight issues.
      ***********************/
     async function vote(name){
       if (hasVoted(name)) {
@@ -753,14 +834,12 @@
 
     /***********************
      * FETCH VOTES VIA JSONP
-     * This bypasses CORS for reading counts.
      ***********************/
     function fetchVotesJSONP(){
       const cbName = "votes_cb_" + Math.random().toString(16).slice(2);
 
       window[cbName] = function(data){
         try {
-          // Update counts
           restaurants.forEach(r => {
             const id = safeId(r.name);
             const count = (data && data[r.name]) ? data[r.name] : 0;
@@ -768,7 +847,6 @@
             if (el) el.textContent = `${count} votes`;
           });
 
-          // Sort cards by votes high to low
           const cards = Array.from(grid.querySelectorAll(".card"));
           cards.sort((a, b) => {
             const an = a.getAttribute("data-name");
